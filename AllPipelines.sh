@@ -71,20 +71,19 @@ echo "Margin Polish" > ${OUTPUT}
 
 # create margin phase fasta
 MARGINPHASEFASTA = marginPhase.fa
+MARGINTRUTH = draft_to_truth_margin_polish
+
 ./MarginPhase/marginPhase/build/marginPolish ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam \
   ./Medaka/medaka_walkthrough/${DRAFT} \
   ./MarginPhase/marginPhase/params/allParams.np.json \
   -o ${MARGINPHASEFASTA}
 
 # remove files that will mess with creating the results 
-rm ./Medaka/medaka_walkthrough/consensus/consensus_probs.hdf
-rm ./Medaka/medaka_walkthrough/consensus/consensus.fasta
-rm ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam
 rm -rf ./Medaka/medaka_walkthrough/consensus
 
 # see how it compares
 echo "Draft assembly"
-assess_assembly -i ${MARGINPHASEFASTA} -r ${TRUTH} -p ${DRAFT2TRUTH} -t ${NPROC}
+assess_assembly -i ${MARGINPHASEFASTA} -r ${TRUTH} -p ${MARGINTRUTH} -t ${NPROC}
 
 # echo "Medaka consensus"
 # assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC}
