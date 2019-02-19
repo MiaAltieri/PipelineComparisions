@@ -9,7 +9,7 @@
 #		wget https://s3-eu-west-1.amazonaws.com/ont-research/medaka_walkthrough_no_reads.tar.gz
 #		tar -xvf medaka_walkthrough_no_reads.tar.gz
 #		DATA=${PWD}/data
-#	- you have clone promoxis
+#	- you have cloned promoxis
 #		git clone https://github.com/nanoporetech/pomoxis --recursive
 #	- you have cloned medaka
 #		git clone https://github.com/nanoporetech/medaka
@@ -25,7 +25,7 @@ POMOXIS=${WALKTHROUGH}/pomoxis/venv/bin/activate
 MEDAKA=${WALKTHROUGH}/medaka/venv/bin/activate
 NPROC=$(nproc)
 BASECALLS=data/basecalls.fa
-DRAFT=draft_assm/assm_final.fa
+DRAFT=../../results.fa # draft_assm/assm_final.fa
 CONSENSUS=consensus
 TRUTH=${DATA}/truth.fasta
 DRAFT2TRUTH=draft_to_truth
