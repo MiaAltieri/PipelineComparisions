@@ -21,6 +21,7 @@ echo "data from ONT" > ${OUTPUT}
 echo "=====================================================================" > ${OUTPUT}
 
 # setting starting arguments for pipeline from ONT.
+cd Medaka
 WALKTHROUGH=${PWD}/medaka_walkthrough
 DATA=${WALKTHROUGH}/data
 POMOXIS=${WALKTHROUGH}/pomoxis/venv/bin/activate
@@ -39,7 +40,6 @@ CONSENSUS2TRUTH=${CONSENSUS}_to_truth
 # basic medaka
 # =====================================================================
 echo "Basic Medaka" > ${OUTPUT}
-cd Medaka
 cd ${WALKTHROUGH}
 
 source ${POMOXIS}
