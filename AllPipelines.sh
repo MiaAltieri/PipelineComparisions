@@ -70,8 +70,8 @@ echo "Flip Flop Medaka" > ${OUTPUT}
 echo "Margin Polish" > ${OUTPUT}
 
 # create margin phase fasta
-MARGINPHASEFASTA = marginPhase.fa
-MARGINTRUTH = draft_to_truth_margin_polish
+MARGINPHASEFASTA=marginPhase.fa
+MARGINTRUTH=draft_to_truth_margin_polish
 
 ./MarginPhase/marginPhase/build/marginPolish ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam \
   ./Medaka/medaka_walkthrough/${DRAFT} \
