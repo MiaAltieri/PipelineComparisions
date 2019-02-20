@@ -82,7 +82,11 @@ MARGINTRUTH=draft_to_truth_margin_polish
   -o ${MARGINPHASEFASTA}
 
 # remove files that will mess with creating the results 
-# rm -rf ./Medaka/medaka_walkthrough/consensus
+mkdir ./Medaka/medaka_walkthrough/consensus2
+mv ./Medaka/medaka_walkthrough/consensus ./Medaka/medaka_walkthrough/consensus2
+
+cd ${WALKTHROUGH}
+source ${POMOXIS}
 
 # see how it compares
 echo "Draft assembly"
