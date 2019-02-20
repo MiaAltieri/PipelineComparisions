@@ -89,7 +89,7 @@ source ${POMOXIS}
 
 # see how it compares
 echo "Draft assembly"
-assess_assembly -i ${MARGINPHASEFASTA}.fa -r ${TRUTH} -p ${MARGINTRUTH} -t ${NPROC}
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish -t $(nproc)
 
 
 # =====================================================================
@@ -102,8 +102,10 @@ rm -rf ./Medaka/medaka_walkthrough/consensus
 cd /home/mgaltier
 cd ${WALKTHROUGH}
 
+cp ../../marginPhase.fa draft_assm_margin_medaka/.
+
 source ${POMOXIS}
-mini_assemble -i ${BASECALLS} -o draft_assm -p assm -t ${NPROC} -c -e 10
+mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
 
 awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 
@@ -113,15 +115,12 @@ mv ./Medaka/medaka_walkthrough/consensus ./Medaka/medaka_walkthrough/consensusMa
 
 cd ${WALKTHROUGH}
 source ${MEDAKA}
-medaka_consensus -i ${BASECALLS} -d ${MARGINPHASEFASTA}.fa -o ${CONSENSUS} -t ${NPROC}
+medaka_consensus -i ${BASECALLS} -d ../../marginPhase.fa -o ${CONSENSUS} -t ${NPROC}
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
 echo "Draft assembly"
-assess_assembly -i ${MARGINPHASEFASTA}.fa -r ${TRUTH}  -p ${DRAFT2TRUTH} -t ${NPROC}
-# echo "Medaka consensus"
-# assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC}
-
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta  -p  draft_to_truth_margin_polish -t ${NPROC}
 
 
 # # working with other data
