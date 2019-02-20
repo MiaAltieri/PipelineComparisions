@@ -69,6 +69,7 @@ echo "Flip Flop Medaka" > ${OUTPUT}
 # =====================================================================
 echo "Margin Polish" > ${OUTPUT}
 
+cd /home/mgaltier
 # create margin phase fasta
 MARGINPHASEFASTA=marginPhase
 MARGINTRUTH=draft_to_truth_margin_polish
