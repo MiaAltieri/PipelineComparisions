@@ -73,7 +73,7 @@ echo "Margin Polish" > ${OUTPUT}
 MARGINPHASEFASTA=marginPhase.fa
 MARGINTRUTH=draft_to_truth_margin_polish
 
-./MarginPhase/marginPhase/build/marginPolish ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam \
+bash ./MarginPhase/marginPhase/build/marginPolish ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam \
   ./Medaka/medaka_walkthrough/${DRAFT} \
   ./MarginPhase/marginPhase/params/allParams.np.json \
   -o ${MARGINPHASEFASTA}
