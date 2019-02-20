@@ -70,20 +70,19 @@ echo "Flip Flop Medaka" > ${OUTPUT}
 echo "Margin Polish" > ${OUTPUT}
 
 cd /home/mgaltier
+
 # create margin phase fasta
 MARGINPHASEFASTA=marginPhase
 MARGINTRUTH=draft_to_truth_margin_polish
-
-
 
 ./MarginPhase/marginPhase/build/marginPolish  ./Medaka/medaka_walkthrough/consensus/calls_to_draft.bam \
   ./Medaka/medaka_walkthrough/${DRAFT} \
   ./MarginPhase/marginPhase/params/allParams.np.json \
   -o ${MARGINPHASEFASTA}
 
-# remove files that will mess with creating the results 
-mkdir ./Medaka/medaka_walkthrough/consensus2
-mv ./Medaka/medaka_walkthrough/consensus ./Medaka/medaka_walkthrough/consensus2
+# move files that will mess with creating the results 
+mkdir ./Medaka/medaka_walkthrough/consensusMedakaBasic
+mv ./Medaka/medaka_walkthrough/consensus ./Medaka/medaka_walkthrough/consensusMedakaBasic
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
@@ -92,8 +91,6 @@ source ${POMOXIS}
 echo "Draft assembly"
 assess_assembly -i ${MARGINPHASEFASTA}.fa -r ${TRUTH} -p ${MARGINTRUTH} -t ${NPROC}
 
-# echo "Medaka consensus"
-# assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC}
 
 # =====================================================================
 # margin polish + medaka 
@@ -103,6 +100,17 @@ echo "Margin Polish + Medaka" > ${OUTPUT}
 rm -rf ./Medaka/medaka_walkthrough/consensus
 
 cd /home/mgaltier
+cd ${WALKTHROUGH}
+
+source ${POMOXIS}
+mini_assemble -i ${BASECALLS} -o draft_assm -p assm -t ${NPROC} -c -e 10
+
+awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
+
+# move files that will mess with creating the results 
+mkdir ./Medaka/medaka_walkthrough/consensusMarginPhase
+mv ./Medaka/medaka_walkthrough/consensus ./Medaka/medaka_walkthrough/consensusMarginPhase
+
 cd ${WALKTHROUGH}
 source ${MEDAKA}
 medaka_consensus -i ${BASECALLS} -d ${MARGINPHASEFASTA}.fa -o ${CONSENSUS} -t ${NPROC}
