@@ -1,5 +1,5 @@
-WALKTHROUGH=${PWD}/Medaka/medaka_walkthrough_trevor
-BASECALLS=data/trevor.fastq
+WALKTHROUGH=${PWD}/Medaka/medaka_walkthrough
+BASECALLS=data/basecalls.fa
 
 
 # allowing user to change walkthrough and basecalls 
@@ -40,6 +40,7 @@ CONSENSUS2TRUTH=${CONSENSUS}_to_truth
 # basic medaka
 # =====================================================================
 cd ${WALKTHROUGH}
+# cleaning any old results
 rm -rf draft*
 rm -rf consensus*
 
