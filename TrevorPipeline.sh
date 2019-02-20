@@ -5,7 +5,7 @@ echo "data from ONT" > ${OUTPUT}
 echo "=====================================================================" > ${OUTPUT}
 
 # setting starting arguments for pipeline from ONT.
-WALKTHROUGH=${PWD}/Medaka/medaka_walkthrough
+WALKTHROUGH=${PWD}/Medaka/medaka_walkthrough_trevor
 DATA=${WALKTHROUGH}/data
 POMOXIS=${WALKTHROUGH}/pomoxis/venv/bin/activate
 MEDAKA=${WALKTHROUGH}/medaka/venv/bin/activate
@@ -13,12 +13,12 @@ NPROC=$(nproc)
 
 
 BASECALLS=data/trevor.fastq
-DRAFT=draft_assm_trevor/assm_final.fa
-CONSENSUS=consensus_trevor
+DRAFT=draft_assm/assm_final.fa
+CONSENSUS=consensus
 TRUTH=${DATA}/truth.fasta
 
-DRAFT2TRUTH=draft_to_truth_trevor
-CONSENSUS2TRUTH=${CONSENSUS}_to_truth_trevor
+DRAFT2TRUTH=draft_to_truth
+CONSENSUS2TRUTH=${CONSENSUS}_to_truth
 
 # =====================================================================
 # basic medaka
@@ -57,24 +57,24 @@ echo "Margin Polish" > ${OUTPUT}
 cd /home/mgaltier
 
 # create margin phase fasta
-MARGINPHASEFASTA=marginPhase_trevor
-MARGINTRUTH=draft_to_truth_margin_polish_trevor
+MARGINPHASEFASTA=marginPhase
+MARGINTRUTH=draft_to_truth_margin_polish
 
-./MarginPhase/marginPhase/build/marginPolish  ./Medaka/medaka_walkthrough/consensus_trevor/calls_to_draft.bam \
-  ./Medaka/medaka_walkthrough/${DRAFT} \
+./MarginPhase/marginPhase/build/marginPolish  ./Medaka/medaka_walkthrough_trevor/consensus/calls_to_draft.bam \
+  ./Medaka/medaka_walkthrough_trevor/${DRAFT} \
   ./MarginPhase/marginPhase/params/allParams.np.json \
   -o ${MARGINPHASEFASTA}
 
 # move files that will mess with creating the results 
-mkdir ./Medaka/medaka_walkthrough/consensusMedakaBasic
-mv ./Medaka/medaka_walkthrough/consensus_trevor ./Medaka/medaka_walkthrough/consensus_trevorMedakaBasic
+mkdir ./Medaka/medaka_walkthrough_trevor/consensusMedakaBasic
+mv ./Medaka/medaka_walkthrough_trevor/consensus ./Medaka/medaka_walkthrough_trevor/consensusMedakaBasic
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
 
 # see how it compares
 echo "Draft assembly"
-assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_trevor_margin_polish -t $(nproc)
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish -t $(nproc)
 
 
 
@@ -86,21 +86,23 @@ echo "Margin Polish + Medaka" > ${OUTPUT}
 cd /home/mgaltier
 cd ${WALKTHROUGH}
 
-cp ../../marginPhase.fa draft_assm_trevor_margin_medaka/.
+cp ../../marginPhase.fa draft_assm_margin_medaka/.
 
 source ${POMOXIS}
-mini_assemble -i ${BASECALLS} -o draft_assm_trevor_margin_medaka -p assm -t ${NPROC} -c -e 10
+mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
 
 awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 
 # move files that will mess with creating the results 
 cd ${WALKTHROUGH}
-mkdir consensus_trevorMarginPhase
-mv ./consensus_trevor .consensus_trevorMarginPhase
+mkdir consensusMarginPhase
+mv ./consensus .consensusMarginPhase
 
+cd ${WALKTHROUGH}
 source ${MEDAKA}
 medaka_consensus -i ${BASECALLS} -d ../../marginPhase.fa -o ${CONSENSUS} -t ${NPROC}
 
+cd ${WALKTHROUGH}
 source ${POMOXIS}
 echo "Draft assembly"
-assess_assembly -i ../../marginPhase.fa -r data/truth.fasta  -p  draft_to_truth_trevor_margin_polish_medaaka -t ${NPROC}
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaaka -t ${NPROC}
