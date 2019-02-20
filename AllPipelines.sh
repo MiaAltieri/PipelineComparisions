@@ -86,24 +86,27 @@ rm -rf ./Medaka/medaka_walkthrough/consensus
 
 # see how it compares
 echo "Draft assembly"
-assess_assembly -i ${MARGINPHASEFASTA} -r ${TRUTH} -p ${MARGINTRUTH} -t ${NPROC}
+assess_assembly -i ${MARGINPHASEFASTA}.fa -r ${TRUTH} -p ${MARGINTRUTH} -t ${NPROC}
 
 # echo "Medaka consensus"
 # assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC}
 
-# # =====================================================================
-# # margin polish + medaka 
-# # =====================================================================
-# echo "Margin Polish + Medaka" > ${OUTPUT}
+# =====================================================================
+# margin polish + medaka 
+# =====================================================================
+echo "Margin Polish + Medaka" > ${OUTPUT}
 
-# cd ${WALKTHROUGH}
-# source ${MEDAKA}
-# medaka_consensus -i ${BASECALLS} -d ${MARGINPHASEFASTA} -o ${CONSENSUS} -t ${NPROC}
+rm -rf ./Medaka/medaka_walkthrough/consensus
 
-# cd ${WALKTHROUGH}
-# source ${POMOXIS}
-# echo "Draft assembly"
-# assess_assembly -i ${MARGINPHASEFASTA} -r ${TRUTH}  -p ${DRAFT2TRUTH} -t ${NPROC}
+cd /home/mgaltier
+cd ${WALKTHROUGH}
+source ${MEDAKA}
+medaka_consensus -i ${BASECALLS} -d ${MARGINPHASEFASTA}.fa -o ${CONSENSUS} -t ${NPROC}
+
+cd ${WALKTHROUGH}
+source ${POMOXIS}
+echo "Draft assembly"
+assess_assembly -i ${MARGINPHASEFASTA}.fa -r ${TRUTH}  -p ${DRAFT2TRUTH} -t ${NPROC}
 # echo "Medaka consensus"
 # assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC}
 
