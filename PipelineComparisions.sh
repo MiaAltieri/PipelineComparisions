@@ -76,6 +76,7 @@ cd /home/mgaltier
   -o marginPhase
 
 # move this marginPhase result so it can be used by margin polish + medaka
+mkdir ${WALKTHROUGH}/draft_assm_margin_medaka/
 cp ./marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
 
 # move files that will mess with creating the results 
@@ -114,10 +115,10 @@ medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${CONSENSUS} -t ${NPROC}
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
-echo "=======================================" >> ${RESULTS}
-echo "margin polish + medaka" >> ${RESULTS}
-echo "Draft assembly" >> ${RESULTS}
-assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC} >>  ${RESULTS}
+echo "=======================================" # >> ${RESULTS}
+echo "margin polish + medaka" # >> ${RESULTS}
+echo "Draft assembly" # >> ${RESULTS}
+assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC} # >>  ${RESULTS}
 
 # =====================================================================
 # flip flop medaka
