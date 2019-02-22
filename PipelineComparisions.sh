@@ -60,7 +60,7 @@ echo "=======================================" >> ${RESULTS}
 echo "basic medaka"  >> ${RESULTS}
 echo "Draft assembly"  >> ${RESULTS}
 assess_assembly -i ${DRAFT} -r ${TRUTH} -p ${DRAFT2TRUTH} -t ${NPROC} >>  ${RESULTS}
-echo "Medaka consensus"  >> RESULTS
+echo "Medaka consensus"  >> ${RESULTS}
 assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC} >> ${RESULTS}
 
 
@@ -76,12 +76,11 @@ cd /home/mgaltier
   -o marginPhase
 
 # move this marginPhase result so it can be used by margin polish + medaka
-cp ../../marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
+cp ./marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
 
 # move files that will mess with creating the results 
 mkdir ${WALKTHROUGH}/consensusMedakaBasic
 mv ${WALKTHROUGH}/consensus ${WALKTHROUGH}/consensusMedakaBasic
-
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
@@ -89,7 +88,7 @@ source ${POMOXIS}
 echo "=======================================" >> ${RESULTS}
 echo "margin polish" >> ${RESULTS}
 # see how it compares
-assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish -t $(nproc) >> RESULTS
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish_medaka -t $(nproc) >> ${RESULTS}
 
 # =====================================================================
 # margin polish + medaka 
@@ -118,12 +117,14 @@ source ${POMOXIS}
 echo "=======================================" >> ${RESULTS}
 echo "margin polish + medaka" >> ${RESULTS}
 echo "Draft assembly" >> ${RESULTS}
-assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC} >>  RESULTS
+assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC} >>  ${RESULTS}
 
 # =====================================================================
 # flip flop medaka
 # =====================================================================
 cd ${WALKTHROUGH}
+DRAFT=draft_assm/assm_final.fa
+
 # cleaning any old results
 rm -rf draft*
 rm -rf consensus*
