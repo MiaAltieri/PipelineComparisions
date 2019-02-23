@@ -118,7 +118,7 @@ source ${POMOXIS}
 echo "=======================================" # >> ${RESULTS}
 echo "margin polish + medaka" # >> ${RESULTS}
 echo "Draft assembly" # >> ${RESULTS}
-assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC} # >>  ${RESULTS}
+assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC}  >>  ${RESULTS}
 
 # =====================================================================
 # flip flop medaka
