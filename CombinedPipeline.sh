@@ -12,9 +12,9 @@
 
 RESULTS=${PWD}/PipelineComp.txt
 
-echo "Comparing with Medaka Draft" >> ${RESULTS}
+echo "Comparing with Medaka Draft---------------------------------------" >> ${RESULTS}
 bash ./PipelineComparisions.sh
 
 # compares Margin Polish and Medaka with Trevors’s e_coli file as the read file
+echo "Comparing with Trevor's Draft-------------------------------------" >>  ${RESULTS}
 bash ./PipelineComparisions.sh --walkthrough=${PWD}/Medaka/medaka_walkthrough_trevor --basecalls=data/trevor.fastq
-echo "Comparing with Trevor's Draft" >>  ${RESULTS}

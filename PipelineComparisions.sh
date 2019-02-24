@@ -108,6 +108,7 @@ awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 cd ${WALKTHROUGH}
 mkdir consensusMarginPhase
 mv ./consensus .consensusMarginPhase
+rm -rf consensus
 
 cd ${WALKTHROUGH}
 source ${MEDAKA}
@@ -115,9 +116,9 @@ medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${CONSENSUS} -t ${NPROC}
 
 cd ${WALKTHROUGH}
 source ${POMOXIS}
-echo "=======================================" # >> ${RESULTS}
-echo "margin polish + medaka" # >> ${RESULTS}
-echo "Draft assembly" # >> ${RESULTS}
+echo "=======================================" >> ${RESULTS}
+echo "margin polish + medaka" >> ${RESULTS}
+echo "Draft assembly" >> ${RESULTS}
 assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC}  >>  ${RESULTS}
 
 # =====================================================================
