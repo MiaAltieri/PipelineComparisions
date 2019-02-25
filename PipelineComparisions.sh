@@ -1,3 +1,4 @@
+HOME=${PWD}
 RESULTS=${PWD}/PipelineComp.txt
 WALKTHROUGH=${PWD}/Medaka/medaka_walkthrough
 BASECALLS=data/basecalls.fa
@@ -92,16 +93,12 @@ assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_ma
 # =====================================================================
 # move this marginPhase result so it can be used by margin polish + medaka
 # change where we are getting draft from
-cd /home/mgaltier
-mkdir ${WALKTHROUGH}/draft_assm_margin_medaka/
+cd ${WALKTHROUGH}
+mkdir draft_assm_margin_medaka/
+
+cd ${HOME}
 cp ./marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
 DRAFT=draft_assm_margin_medaka/marginPhase.fa
-
-# source ${POMOXIS}
-# mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
-
-cd ${WALKTHROUGH}
-awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 
 # move files that will mess with creating the results 
 mkdir consensusMarginPhase
@@ -118,6 +115,15 @@ echo "=======================================" >> ${RESULTS}
 echo "margin polish + medaka" >> ${RESULTS}
 echo "Draft assembly" >> ${RESULTS}
 assess_assembly -i ${DRAFT} -r data/truth.fasta  -p  draft_to_truth_margin_polish_medaka -t ${NPROC}  >>  ${RESULTS}
+echo "Medaka consensus"  >> ${RESULTS}
+assess_assembly -i ${CONSENSUS}/consensus.fasta -r ${TRUTH} -p ${CONSENSUS2TRUTH} -t ${NPROC} >> ${RESULTS}
+
+
+# source ${POMOXIS}
+# mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
+
+# cd ${WALKTHROUGH}
+# awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 
 # =====================================================================
 # flip flop medaka
