@@ -89,12 +89,17 @@ source ${POMOXIS}
 echo "=======================================" >> ${RESULTS}
 echo "margin polish" >> ${RESULTS}
 # see how it compares
-assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish_medaka -t $(nproc) >> ${RESULTS}
+assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_margin_polish -t $(nproc) >> ${RESULTS}
 
 # =====================================================================
 # margin polish + medaka 
 # =====================================================================
 cd ${WALKTHROUGH}
+
+# move files that will mess with creating the results 
+mkdir consensusMarginPhase
+mv ./consensus .consensusMarginPhase
+rm -rf consensus
 
 # change where we are getting draft from
 DRAFT=draft_assm_margin_medaka/marginPhase.fa
@@ -103,12 +108,8 @@ source ${POMOXIS}
 mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
 
 awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
-
-# move files that will mess with creating the results 
 cd ${WALKTHROUGH}
-mkdir consensusMarginPhase
-mv ./consensus .consensusMarginPhase
-rm -rf consensus
+
 
 cd ${WALKTHROUGH}
 source ${MEDAKA}
