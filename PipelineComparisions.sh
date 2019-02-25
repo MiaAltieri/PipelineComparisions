@@ -75,10 +75,6 @@ cd /home/mgaltier
   ./MarginPhase/marginPhase/params/allParams.np.json \
   -o marginPhase
 
-# move this marginPhase result so it can be used by margin polish + medaka
-mkdir ${WALKTHROUGH}/draft_assm_margin_medaka/
-cp ./marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
-
 # move files that will mess with creating the results 
 mkdir ${WALKTHROUGH}/consensusMedakaBasic
 mv ${WALKTHROUGH}/consensus ${WALKTHROUGH}/consensusMedakaBasic
@@ -94,22 +90,23 @@ assess_assembly -i ../../marginPhase.fa -r data/truth.fasta -p draft_to_truth_ma
 # =====================================================================
 # margin polish + medaka 
 # =====================================================================
+# move this marginPhase result so it can be used by margin polish + medaka
+# change where we are getting draft from
+cd /home/mgaltier
+mkdir ${WALKTHROUGH}/draft_assm_margin_medaka/
+cp ./marginPhase.fa ${WALKTHROUGH}/draft_assm_margin_medaka/.
+DRAFT=draft_assm_margin_medaka/marginPhase.fa
+
+# source ${POMOXIS}
+# mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
+
 cd ${WALKTHROUGH}
+awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
 
 # move files that will mess with creating the results 
 mkdir consensusMarginPhase
 mv ./consensus .consensusMarginPhase
 rm -rf consensus
-
-# change where we are getting draft from
-DRAFT=draft_assm_margin_medaka/marginPhase.fa
-
-source ${POMOXIS}
-mini_assemble -i ${BASECALLS} -o draft_assm_margin_medaka -p assm -t ${NPROC} -c -e 10
-
-awk '{if(/>/){n=$1}else{print n " " length($0)}}' ${DRAFT}
-cd ${WALKTHROUGH}
-
 
 cd ${WALKTHROUGH}
 source ${MEDAKA}
